@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<h1>[백지흠] DB연결 웹 프로젝트(jsp)</h1>
+	<form action="/view/login.jsp" method="post">
+		<fieldset>
+			<legend>로그인</legend>
+			아이디 : <input type="text" name="id"><br>
+			비밀번호 : <input type="password" name="pw"><br>
+			<input type="submit" value="로그인">
+			<input type="reset" value="취소">
+		</fieldset>
+	</form>
+	<hr>
+	<br><br><br>
+	<form action="/view/join.jsp" method="post">
+		<fieldset>
+			<legend>회원가입</legend>
+			아이디 : <input type="text" name="memberId"><br>
+			비밀번호 : <input type="password" name="memberPw"><br>
+			이름 : <input type="text" name="memberName"><br>
+			폰 : <input type="text" name="phone" placeholder="ex) 01012341234"><br>
+			주소 : <input type="text" name="address"><br>	
+			<br>
+			<input type="submit" value="회원가입">
+			<input type="reset" value="취소">
+		</fieldset>
+	</form>
+	<hr>
+	<a href="/view/allMember.jsp">전체회원조회</a>
+</body>
+</html>
