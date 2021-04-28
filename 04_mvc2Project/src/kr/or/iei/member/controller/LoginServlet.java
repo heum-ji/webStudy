@@ -3,6 +3,7 @@ package kr.or.iei.member.controller;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -43,25 +44,23 @@ public class LoginServlet extends HttpServlet {
 		// 3. 로직처리
 		MemberDao dao = new MemberDao();
 		Member member = dao.selectOneMember(id, pw);
-		
-		// 4. 결과 처리
-		response.setContentType("text/html;charset=UTF-8"); 
-		PrintWriter out = response.getWriter(); 
-		// HTML 작성
-		out.println("<!DOCTYPE html>");
-		out.println("<html><head><title>로그인 결과</title></head><body>");
-		out.println("<h1>로그인 결과</h1><hr>");
-		
-		if(member == null) {
-			// 로그인을 실패한 경우
-			out.println("<h2>로그인 실패</h2>");
-			out.println("<script>alert('아이디 또는 비밀번호를 확인하세요');</script>");
+
+		// 4. 결과 처리(jsp에게 데이터를 주면서 출력을 요청)
+
+		if (member != null) {
+			// 결과를 처리할 페이지를 지정
+			RequestDispatcher rd = request.getRequestDispatcher("/view/loginSuccess.jsp");
+			// 화면을 구성하기 위한 데이터 등록
+			request.setAttribute("memberName", member.getMemberName());
+			// 페이지 이동
+			rd.forward(request, response);
 		} else {
-			// 로그인을 성공한 경우
-			out.println("<h2>[" + member.getMemberName() + "]님 환영합니다. </h2>");
-			out.println("<script>alert('로그인 성공!!');</script>");
+			// 결과를 처리할 페이지를 지정
+			RequestDispatcher rd = request.getRequestDispatcher("/view/loginFail.jsp");
+			// 화면을 구성하기 위한 데이터 등록
+			// 페이지 이동
+			rd.forward(request, response);
 		}
-		out.println("</body></html>");
 	}
 
 	/**
