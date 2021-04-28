@@ -6,20 +6,13 @@
 	//1. 인코딩
 	request.setCharacterEncoding("utf-8");
 	// 2. 값추출
-	String memberId = request.getParameter("memberId");
-	String memberPw = request.getParameter("memberPw");
-	String memberName = request.getParameter("memberName");
-	String phone = request.getParameter("phone");
-	String address = request.getParameter("address");
-
-	// insert용 member 세팅
 	Member member = new Member();
 
-	member.setMemberId(memberId);
-	member.setMemberPw(memberPw);
-	member.setMemberName(memberName);
-	member.setPhone(phone);
-	member.setAddress(address);
+	member.setMemberId(request.getParameter("memberId"));
+	member.setMemberPw(request.getParameter("memberPw"));
+	member.setMemberName(request.getParameter("memberName"));
+	member.setPhone(request.getParameter("phone"));
+	member.setAddress(request.getParameter("address"));
 
 	//3. 로직처리
 	MemberDao dao = new MemberDao();

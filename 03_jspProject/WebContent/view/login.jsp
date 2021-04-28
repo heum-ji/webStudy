@@ -12,6 +12,9 @@
 	//3. 로직처리
 	MemberDao dao = new MemberDao();
 	Member member = dao.selectOneMember(id, pw);
+	if (member != null) {
+		session.setAttribute("member", member);
+	}
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
