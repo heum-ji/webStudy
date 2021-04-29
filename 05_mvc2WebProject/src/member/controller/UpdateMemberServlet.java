@@ -8,21 +8,22 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import member.model.service.MemberService;
 import member.model.vo.Member;
 
 /**
- * Servlet implementation class JoinServlet
+ * Servlet implementation class UpdateMemberServlet
  */
-@WebServlet(name = "Join", urlPatterns = { "/join" })
-public class JoinServlet extends HttpServlet {
+@WebServlet(name = "UpdateMember", urlPatterns = { "/updateMember" })
+public class UpdateMemberServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public JoinServlet() {
+	public UpdateMemberServlet() {
 		super();
 	}
 
@@ -34,30 +35,30 @@ public class JoinServlet extends HttpServlet {
 			throws ServletException, IOException {
 		// 1. 인코딩
 		request.setCharacterEncoding("utf-8");
-		// 2. 값 추출
-		Member member = new Member();
+		// 2. 값추출
+		Member m = new Member();
+		m.setMemberPw(request.getParameter("myPw"));
+		m.setAddress(request.getParameter("myAddr"));
+		m.setPhone(request.getParameter("myPhone"));
+		m.setMemberId(request.getParameter("myId"));
+		// 3. 비지니스로직
+		int result = new MemberService().updateMember(m);
 
-		member.setMemberId(request.getParameter("memberId"));
-		member.setMemberPw(request.getParameter("memberPw"));
-		member.setMemberName(request.getParameter("memberName"));
-		member.setPhone(request.getParameter("phone"));
-		member.setAddress(request.getParameter("address"));
-		// 3. 로직처리 -> 비지니스로직 -> 서비스 호출
-		int result = new MemberService().insertMember(member);
 		// 4. 결과처리
-		// 결과처리용 페이지 지정
+		// 결과처리할 페이지 지정
 		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp");
-		// 화면 구성에 필요한 데이터 등록
+		
+		// 페이지에서 사용할 데이터 등록
 		if (result > 0) {
-			// 회원가입 성공
-			request.setAttribute("msg", "회원가입 성공!"); // alert용 메시지
+			request.setAttribute("msg", "정보변경 성공!!");
+			// 정보변경에 성공한 경우 세션에 회원정보를 갱신하기 위한 코드
+			Member member = new MemberService().selectOneMember(m.getMemberId()); // 갱신할 정보 불러오기
+			HttpSession session = request.getSession(false); // 세션 객체 생성
+			session.setAttribute("m", member);
 		} else {
-			// 회원가입 실패
-			request.setAttribute("msg", "회원가입 실패!"); // alert용 메시지
+			request.setAttribute("msg", "정보변경 실패 ㅠ");
 		}
-		// alert로 안내 후 이동할 페이지 지정 - 메인 페이지
-		request.setAttribute("loc", "/");
-		// 페이지 이동
+		request.setAttribute("loc", "/mypage"); // 마이페이지로 이동시키기 위해 서블릿 매핑값을 전달
 		rd.forward(request, response);
 	}
 

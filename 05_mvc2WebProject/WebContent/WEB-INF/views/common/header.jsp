@@ -51,7 +51,7 @@
 		<%
 			} else {
 		%>
-		<a class="btn btn-secondary my-2 my-sm-0" href="#"><%=m.getMemberName()%></a>
+		<a class="btn btn-secondary my-2 my-sm-0" href="/mypage"><%=m.getMemberName()%></a>
     	<a class="btn btn-secondary my-2 my-sm-0" href="/logout">로그아웃</a>
 		<%
 			}
@@ -73,12 +73,12 @@
       <form action="/login" method="post" name="loginFrm">
         <div class="modal-body">
           <div class="form-group">
-            <label for="memberId">아이디</label>
-            <input type="text" class="form-control" name="memberId" id="memberId" placeholder="아이디 입력">
+            <label for="loginId">아이디</label>
+            <input type="text" class="form-control" name="loginId" id="loginId" placeholder="아이디 입력">
           </div>
           <div class="form-group">
-            <label for="memberPw">비밀번호</label>
-            <input type="password" class="form-control" name="memberPw" id="memberPw" placeholder="비밀번호 입력">
+            <label for="loginPw">비밀번호</label>
+            <input type="password" class="form-control" name="loginPw" id="loginPw" placeholder="비밀번호 입력">
           </div>
         </div>
         <div class="modal-footer">

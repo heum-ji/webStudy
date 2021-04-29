@@ -36,8 +36,8 @@ public class LoginServlet extends HttpServlet {
 		// 1. 인코딩
 		request.setCharacterEncoding("utf-8");
 		// 2. 값 추출
-		String memberId = request.getParameter("memberId");
-		String memberPw = request.getParameter("memberPw");
+		String memberId = request.getParameter("loginId");
+		String memberPw = request.getParameter("loginPw");
 		// 3. 로직처리 -> 비지니스로직 -> 서비스 호출
 		Member m = new MemberService().selectOneMember(memberId, memberPw);
 		// 4. 결과처리

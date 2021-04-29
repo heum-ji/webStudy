@@ -13,16 +13,16 @@ import member.model.service.MemberService;
 import member.model.vo.Member;
 
 /**
- * Servlet implementation class JoinServlet
+ * Servlet implementation class CheckIdServlet
  */
-@WebServlet(name = "Join", urlPatterns = { "/join" })
-public class JoinServlet extends HttpServlet {
+@WebServlet(name = "CheckId", urlPatterns = { "/checkId" })
+public class CheckIdServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public JoinServlet() {
+	public CheckIdServlet() {
 		super();
 	}
 
@@ -34,29 +34,23 @@ public class JoinServlet extends HttpServlet {
 			throws ServletException, IOException {
 		// 1. 인코딩
 		request.setCharacterEncoding("utf-8");
-		// 2. 값 추출
-		Member member = new Member();
-
-		member.setMemberId(request.getParameter("memberId"));
-		member.setMemberPw(request.getParameter("memberPw"));
-		member.setMemberName(request.getParameter("memberName"));
-		member.setPhone(request.getParameter("phone"));
-		member.setAddress(request.getParameter("address"));
-		// 3. 로직처리 -> 비지니스로직 -> 서비스 호출
-		int result = new MemberService().insertMember(member);
-		// 4. 결과처리
-		// 결과처리용 페이지 지정
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp");
-		// 화면 구성에 필요한 데이터 등록
-		if (result > 0) {
-			// 회원가입 성공
-			request.setAttribute("msg", "회원가입 성공!"); // alert용 메시지
+		// 2. 값추출
+		String memberId = request.getParameter("checkId");
+		// 3. 비지니스로직
+		Member m = new MemberService().selectOneMember(memberId);
+		// 4. 결과 처리
+		// 결과 처리할 페이지 지정
+		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/common/checkId.jsp");
+		// 결과처리에 사용할 데이터 등록
+		request.setAttribute("memberId", memberId);
+		
+		if (m != null) {
+			// 아이디가 중복인 경우
+			request.setAttribute("result", false);
 		} else {
-			// 회원가입 실패
-			request.setAttribute("msg", "회원가입 실패!"); // alert용 메시지
+			// 아이디가 중복이 아닌 경우
+			request.setAttribute("result", true);
 		}
-		// alert로 안내 후 이동할 페이지 지정 - 메인 페이지
-		request.setAttribute("loc", "/");
 		// 페이지 이동
 		rd.forward(request, response);
 	}
