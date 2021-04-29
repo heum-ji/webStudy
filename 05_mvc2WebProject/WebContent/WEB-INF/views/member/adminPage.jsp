@@ -79,6 +79,35 @@
 			</table>
 		</fieldset>
 	</div>
+	<script>
+		
+		$(".changeLevel").on(
+				"click",
+				function() {
+
+					var memberLevel = $(this).parent().prev().children().val();
+					var memberNo = $(this).parent().parent().children().eq(1)
+							.html();
+
+					location.href = "/changeLevel?memberNo=" + memberNo
+							+ "&memberLevel=" + memberLevel;
+				});
+
+		
+		$(".checkedChangeLevel").on("click", function() {
+			var inputs = $(".chk:checked");
+			var num = new Array();
+			var level = new Array();
+
+			inputs.each(function(idx, item) {
+				num.push($(item).parent().next().html());
+				level.push($(item).parent().parent().find("select").val());
+			});
+			
+		location.href = "/checkedChangeLevel?num=" + num.join("/")
+							+ "&level=" + level.join("/");
+				});
+	</script>
 	<%@include file="/WEB-INF/views/common/footer.jsp"%>
 </body>
 </html>

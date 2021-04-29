@@ -34,6 +34,26 @@ public class MemberDao {
 		return list;
 	}
 
+	// Admin 관리자용 - 회원 등급 변경
+	public int changeLevel(Connection conn, int memberNo, int memberLevel) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String query = "update member set member_level=? where member_no = ?";
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, memberLevel);
+			pstmt.setInt(2, memberNo);
+
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JdbcTemplate.close(pstmt);
+		}
+		return result;
+	}
+
 	// 로그인
 	public Member selectOneMember(Connection conn, String memberId, String memberPw) {
 		PreparedStatement pstmt = null;

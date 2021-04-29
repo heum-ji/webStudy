@@ -2,6 +2,7 @@ package member.model.service;
 
 import java.sql.Connection;
 import java.util.ArrayList;
+import java.util.StringTokenizer;
 
 import common.JdbcTemplate;
 import member.model.dao.MemberDao;
@@ -16,6 +17,53 @@ public class MemberService {
 
 		JdbcTemplate.close(conn);
 		return list;
+	}
+
+	// Admin 관리자용 - 회원 등급 변경
+	public int changeLevel(int memberNo, int memberLevel) {
+		// 커넥션 생성
+		Connection conn = JdbcTemplate.getConnection();
+		int result = new MemberDao().changeLevel(conn, memberNo, memberLevel);
+
+		if (result > 0) {
+			JdbcTemplate.commit(conn);
+		} else {
+			JdbcTemplate.rollback(conn);
+		}
+		JdbcTemplate.close(conn);
+
+		return result;
+	}
+
+	// Admin 관리자용 - 선택된 회원 등급 전체 변경
+	public boolean checkedChangeLevel(String num, String level) {
+		Connection conn = JdbcTemplate.getConnection();
+		StringTokenizer sT1 = new StringTokenizer(num, "/");
+		StringTokenizer sT2 = new StringTokenizer(level, "/");
+		MemberDao dao = new MemberDao();
+		boolean result = true;
+
+		// 회원 등급 변경 처리
+		while (sT1.hasMoreTokens()) {
+			int memberNo = Integer.parseInt(sT1.nextToken());
+			int memberLevel = Integer.parseInt(sT2.nextToken());
+			int changeResult = dao.changeLevel(conn, memberNo, memberLevel);
+
+			// 하나라도 실패하면 끝내기
+			if (changeResult == 0) {
+				result = false;
+				break;
+			}
+		}
+		
+		// 최종 DB 처리
+		if (result) {
+			JdbcTemplate.commit(conn);
+		} else {
+			JdbcTemplate.rollback(conn);
+		}
+		JdbcTemplate.close(conn);
+		return result;
 	}
 
 	// 로그인
