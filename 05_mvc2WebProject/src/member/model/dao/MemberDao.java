@@ -4,11 +4,35 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import common.JdbcTemplate;
 import member.model.vo.Member;
 
 public class MemberDao {
+
+	// Admin 관리자용 - 전체 회원 조회
+	public ArrayList<Member> selectAllMember(Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<Member> list = new ArrayList<Member>();
+		String query = "select * from member";
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			rset = pstmt.executeQuery();
+
+			while (rset.next()) {
+				list.add(setMember(rset));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JdbcTemplate.close(rset);
+			JdbcTemplate.close(pstmt);
+		}
+		return list;
+	}
 
 	// 로그인
 	public Member selectOneMember(Connection conn, String memberId, String memberPw) {

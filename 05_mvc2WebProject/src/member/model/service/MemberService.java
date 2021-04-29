@@ -1,12 +1,22 @@
 package member.model.service;
 
 import java.sql.Connection;
+import java.util.ArrayList;
 
 import common.JdbcTemplate;
 import member.model.dao.MemberDao;
 import member.model.vo.Member;
 
 public class MemberService {
+
+	// Admin 관리자용 - 전체 회원 조회
+	public ArrayList<Member> selectAllMember() {
+		Connection conn = JdbcTemplate.getConnection();
+		ArrayList<Member> list = new MemberDao().selectAllMember(conn);
+
+		JdbcTemplate.close(conn);
+		return list;
+	}
 
 	// 로그인
 	public Member selectOneMember(String memberId, String memberPw) {
