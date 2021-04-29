@@ -17,13 +17,13 @@ public class MemberDao {
 		ResultSet rset = null;
 		String query = "select * from member";
 		ArrayList<Member> list = new ArrayList<Member>();
-		
+
 		try {
 			pstmt = conn.prepareStatement(query);
-			
+
 			rset = pstmt.executeQuery();
-			
-			while(rset.next()) {
+
+			while (rset.next()) {
 				list.add(setMember(rset));
 			}
 		} catch (SQLException e) {
@@ -35,7 +35,7 @@ public class MemberDao {
 		}
 		return list;
 	}
-	
+
 	public Member selectOneMember(String id, String pw) {
 		Connection conn = null;
 		PreparedStatement pstmt = null;
@@ -72,7 +72,7 @@ public class MemberDao {
 
 		try {
 			pstmt = conn.prepareStatement(query);
-			
+
 			pstmt.setString(1, member.getMemberId());
 			pstmt.setString(2, member.getMemberPw());
 			pstmt.setString(3, member.getMemberName());
@@ -80,8 +80,8 @@ public class MemberDao {
 			pstmt.setString(5, member.getAddress());
 
 			result = pstmt.executeUpdate();
-			
-			if(result > 0) {
+
+			if (result > 0) {
 				JdbcTemplate.commit(conn);
 			} else {
 				JdbcTemplate.rollback(conn);
@@ -94,13 +94,11 @@ public class MemberDao {
 		}
 		return result;
 	}
-	
+
 	public Member setMember(ResultSet rset) {
 		Member member = new Member();
 
 		try {
-			member = new Member();
-
 			member.setMemberNo(rset.getInt("member_no"));
 			member.setMemberId(rset.getString("member_id"));
 			member.setMemberPw(rset.getString("member_pw"));

@@ -99,8 +99,6 @@ public class MemberDao {
 		Member member = new Member();
 
 		try {
-			member = new Member();
-
 			member.setMemberNo(rset.getInt("member_no"));
 			member.setMemberId(rset.getString("member_id"));
 			member.setMemberPw(rset.getString("member_pw"));
