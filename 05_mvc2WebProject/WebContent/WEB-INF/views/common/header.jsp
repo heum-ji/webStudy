@@ -51,7 +51,7 @@
 		<%
 			} else {
 		%>
-		<a class="btn btn-secondary my-2 my-sm-0" href="/mypage"><%=m.getMemberName()%></a>
+		<a class="btn btn-secondary my-2 my-sm-0" href="/mypage1"><%=m.getMemberName()%></a>
     	<a class="btn btn-secondary my-2 my-sm-0" href="/logout">로그아웃</a>
 		<%
 			}
