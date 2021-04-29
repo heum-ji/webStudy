@@ -10,6 +10,7 @@ import member.model.vo.Member;
 
 public class MemberDao {
 
+	// 로그인
 	public Member selectOneMember(Connection conn, String memberId, String memberPw) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -35,6 +36,7 @@ public class MemberDao {
 		return m;
 	}
 
+	// ID 중복 체크
 	public Member selectOneMember(Connection conn, String memberId) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -59,6 +61,7 @@ public class MemberDao {
 		return m;
 	}
 
+	// 회원 가입
 	public int insertMember(Connection conn, Member member) {
 		PreparedStatement pstmt = null;
 		int result = 0;
@@ -82,6 +85,7 @@ public class MemberDao {
 		return result;
 	}
 
+	// 회원정보 수정
 	public int updateMember(Connection conn, Member m) {
 		PreparedStatement pstmt = null;
 		int result = 0;
@@ -104,6 +108,27 @@ public class MemberDao {
 		return result;
 	}
 
+	// 회원 탈퇴
+	public int deleteMember(Connection conn, int memberNo) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String query = "delete from member where member_no = ?";
+
+		try {
+			pstmt = conn.prepareStatement(query);
+
+			pstmt.setInt(1, memberNo);
+
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JdbcTemplate.close(pstmt);
+		}
+		return result;
+	}
+
+	// 회원 저장용
 	public Member setMember(ResultSet rset) {
 		Member member = new Member();
 

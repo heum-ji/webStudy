@@ -2,7 +2,7 @@
 	pageEncoding="UTF-8"%>
 
 <%
-	Member member = (Member)request.getAttribute("member");
+	Member member = (Member) request.getAttribute("member");
 %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -60,7 +60,19 @@
 			<div class="form-group">
 				<fieldset style="text-align: center">
 					<button type="submit" class="btn btn-outline-primary">정보수정</button>
-					<a href="#" class="btn btn-outline-danger">회원탈퇴</a>
+					<%
+						if (member.getMemberLevel() == 1) {
+					%>
+					<a href="/adminPage" class="btn btn-outline-danger">회원관리</a>
+					<%
+						} else {
+					%>
+					<a href="/deleteMember?memberNo=<%=member.getMemberNo()%>"
+						class="btn btn-outline-danger">회원탈퇴</a>
+					<%
+						}
+					%>
+
 				</fieldset>
 			</div>
 		</form>

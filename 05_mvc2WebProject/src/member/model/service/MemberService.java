@@ -58,4 +58,19 @@ public class MemberService {
 		return result;
 	}
 
+	// 회원 탈퇴
+	public int deleteMember(int memberNo) {
+		Connection conn = JdbcTemplate.getConnection();
+		int result = new MemberDao().deleteMember(conn, memberNo);
+
+		if (result > 0) {
+			JdbcTemplate.commit(conn);
+		} else {
+			JdbcTemplate.rollback(conn);
+		}
+		JdbcTemplate.close(conn);
+
+		return result;
+	}
+
 }
