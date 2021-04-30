@@ -6,10 +6,11 @@ import java.util.ArrayList;
 import common.JdbcTemplate;
 import notice.model.dao.NoticeDao;
 import notice.model.vo.Notice;
+import notice.model.vo.NoticePageData;
 
 public class NoticeService {
 
-	public ArrayList<Notice> selectNoticeList(int reqPage) {
+	public NoticePageData selectNoticeList(int reqPage) {
 		Connection conn = JdbcTemplate.getConnection();
 		// 1. 한페이지에 게시물을 몇개 보여줄지 : 한 페이지당 10개씩 보여줌
 		int numPerPage = 10;
@@ -17,13 +18,56 @@ public class NoticeService {
 		// 1페이지 : start : 1, end : 10, 2페이지 : start : 11, end : 20
 		int end = reqPage * numPerPage;
 		int start = end - numPerPage + 1;
-		ArrayList<Notice> list = new NoticeDao().selectNoticeList(conn, start, end);
+		// 요청한 페이지의 게시물을 조회
+		NoticeDao dao = new NoticeDao();
+		ArrayList<Notice> list = dao.selectNoticeList(conn, start, end);
 
-		// 타이틀 확인 테스트용
-		for (Notice n : list) {
-			System.out.println(n.getNoticeTitle());
+		// 페이지 네비게이션 제작
+		// 1) 전체 페이지수를 구해야 함 : 85/10
+		// 전체 게시물 수 조회
+		int totalCount = dao.totalCount(conn);
+		// 전체 페이지 수 계산
+		int totalPage = (totalCount % numPerPage == 0) ? totalCount / numPerPage : (totalCount / numPerPage) + 1;
+
+		// pageNavi 길이 지정
+		int pageNaviSize = 5;
+		// 페이지 시작 번호 설정 - 항상 pageNavi의 처음 ex) 1~5 : 1 // 6~10 : 6
+		int pageNo = ((reqPage - 1) / pageNaviSize) * pageNaviSize + 1;
+
+		// pageNavi 시작
+		String pageNavi = "<ul class='pagination pagination-lg'>";
+
+		// 이전 버튼 생성 - 이전 페이지의 last
+		if (pageNo != 1) {
+			pageNavi += "<li class='page-item'>";
+			pageNavi += "<a class='page-link' href='/noticeList?reqPage=" + (pageNo - 1) + "'>&lt</a></li>"; // &lt : <
 		}
-		return list;
+		// 페이지 숫자 생성
+		for (int i = 0; i < pageNaviSize; i++) {
+			// 현재 페이지가 요청한 페이지 인 경우
+			if (pageNo == reqPage) {
+				pageNavi += "<li class='page-item active'>";
+				pageNavi += "<a class='page-link' href='/noticeList?reqPage=" + pageNo + "'>" + pageNo + "</a></li>";
+			} else {
+				pageNavi += "<li class='page-item'>";
+				pageNavi += "<a class='page-link' href='/noticeList?reqPage=" + pageNo + "'>" + pageNo + "</a></li>";
+			}
+			pageNo++; // 페이지 수 증가
+
+			if (pageNo > totalPage) {
+				break;
+			}
+		}
+		// 다음 버튼 생성 - 다음 페이지의 first
+		if (pageNo <= totalPage) {
+			pageNavi += "<li class='page-item'>";
+			pageNavi += "<a class='page-link' href='/noticeList?reqPage=" + pageNo + "'>&gt</a></li>"; // &gt : >
+		}
+
+		pageNavi += "</ul>";
+		JdbcTemplate.close(conn);
+		NoticePageData npd = new NoticePageData(list, pageNavi);
+		return npd;
 	}
 
 }

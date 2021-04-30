@@ -11,7 +11,7 @@ import notice.model.vo.Notice;
 
 public class NoticeDao {
 
-	// 공지사항 목록 불러오기
+	// 게시물 목록 불러오기
 	public ArrayList<Notice> selectNoticeList(Connection conn, int start, int end) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -35,6 +35,29 @@ public class NoticeDao {
 			JdbcTemplate.close(pstmt);
 		}
 		return list;
+	}
+
+	// 게시물 전체 수 조회
+	public int totalCount(Connection conn) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String query = "select count(*) as cnt from notice";
+		int result = 0;
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			rset = pstmt.executeQuery();
+
+			if (rset.next()) {
+				result = rset.getInt("cnt");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JdbcTemplate.close(rset);
+			JdbcTemplate.close(pstmt);
+		}
+		return result;
 	}
 
 	// 공지사항 저장용
