@@ -19,24 +19,25 @@
 			<legend>자유게시판</legend>
 			<table class="table-hover" style="width: 100%;">
 				<tr class="table-primary">
-					<th>번호</th>
+					<th>글번호</th>
 					<th>제목</th>
 					<th>작성자</th>
 					<th>작성일</th>
 				</tr>
 				<%
-					for (Board n : list) {
+					for (Board b : list) {
 				%>
 				<tr class="table-light">
-					<td><%=n.getRnum()%></td>
-					<td><%=n.getBoardTitle()%></td>
-					<td><%=n.getBoardWriter()%></td>
-					<td><%=n.getBoardDate()%></td>
+					<td><%=b.getRnum()%></td>
+					<td><%=b.getBoardTitle()%></td>
+					<td><%=b.getBoardWriter()%></td>
+					<td><%=b.getBoardDate()%></td>
 				</tr>
 				<%
 					}
 				%>
 			</table>
+			<br>
 			<div id="pageNavi"><%=pageNavi%></div>
 		</fieldset>
 	</div>
