@@ -134,6 +134,34 @@ public class BoardDao {
 
 	}
 
+	// 게시물 수정
+	public int updateBoard(Connection conn, Board b) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String query = "update board set board_title = ?, board_content = ?, filename = ?, filepath = ? where board_no = ?";
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, b.getBoardTitle());
+			// 내용 공백 체크
+			if (b.getBoardContent().equals("")) {
+				pstmt.setString(2, "내용없음");
+			} else {
+				pstmt.setString(2, b.getBoardContent());
+			}
+			pstmt.setString(3, b.getFilename());
+			pstmt.setString(4, b.getFilepath());
+			pstmt.setInt(5, b.getBoardNo());
+
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JdbcTemplate.close(pstmt);
+		}
+		return result;
+	}
+
 	// 게시물 저장용
 	public Board setOneBoard(ResultSet rset) {
 		Board board = new Board();

@@ -119,4 +119,19 @@ public class BoardService {
 
 		return result;
 	}
+
+	// 게시물 수정
+	public int updateBoard(Board b) {
+		Connection conn = JdbcTemplate.getConnection();
+		int result = new BoardDao().updateBoard(conn, b);
+
+		if (result > 0) {
+			JdbcTemplate.commit(conn);
+		} else {
+			JdbcTemplate.rollback(conn);
+		}
+		JdbcTemplate.close(conn);
+
+		return result;
+	}
 }

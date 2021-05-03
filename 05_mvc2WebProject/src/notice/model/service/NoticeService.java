@@ -126,7 +126,6 @@ public class NoticeService {
 		} else {
 			JdbcTemplate.rollback(conn);
 		}
-
 		JdbcTemplate.close(conn);
 
 		return result;
