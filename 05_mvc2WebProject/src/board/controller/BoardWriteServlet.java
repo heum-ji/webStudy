@@ -39,6 +39,7 @@ public class BoardWriteServlet extends HttpServlet {
 			throws ServletException, IOException {
 		// 1.인코딩
 		request.setCharacterEncoding("utf-8");
+
 		// 2. 값 추출
 		// 파일 업로드 시 enctype 필터링
 		if (!ServletFileUpload.isMultipartContent(request)) {
@@ -64,8 +65,10 @@ public class BoardWriteServlet extends HttpServlet {
 		b.setBoardContent(mRequest.getParameter("boardContent"));
 		b.setFilename(mRequest.getOriginalFileName("filename"));
 		b.setFilepath(mRequest.getFilesystemName("filename"));
+
 		// 3. 비지니스 로직
 		int result = new BoardService().insertBoard(b);
+
 		// 4. 결과처리
 		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/common/msg.jsp");
 
