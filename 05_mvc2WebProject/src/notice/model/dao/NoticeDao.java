@@ -132,7 +132,12 @@ public class NoticeDao {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, n.getNoticeTitle());
 			pstmt.setString(2, n.getNoticeWriter());
-			pstmt.setString(3, n.getNoticeContent());
+			// 내용 공백 체크
+			if (n.getNoticeContent().equals("")) {
+				pstmt.setString(3, "내용없음");
+			} else {
+				pstmt.setString(3, n.getNoticeContent());
+			}
 			pstmt.setString(4, n.getFilename());
 			pstmt.setString(5, n.getFilepath());
 
@@ -164,12 +169,18 @@ public class NoticeDao {
 	public int updateNotice(Connection conn, Notice n) {
 		PreparedStatement pstmt = null;
 		int result = 0;
+
 		String query = "update notice set notice_title = ?, notice_content = ?, filename = ?, filepath = ? where notice_no = ?";
 
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setString(1, n.getNoticeTitle());
-			pstmt.setString(2, n.getNoticeContent());
+			// 내용 공백 체크
+			if (n.getNoticeContent().equals("")) {
+				pstmt.setString(2, "내용없음");
+			} else {
+				pstmt.setString(2, n.getNoticeContent());
+			}
 			pstmt.setString(3, n.getFilename());
 			pstmt.setString(4, n.getFilepath());
 			pstmt.setInt(5, n.getNoticeNo());
