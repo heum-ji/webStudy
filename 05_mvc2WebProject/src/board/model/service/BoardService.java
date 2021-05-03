@@ -104,4 +104,19 @@ public class BoardService {
 
 		return b;
 	}
+
+	// 게시물 삭제
+	public int deleteBoard(int boardNo) {
+		Connection conn = JdbcTemplate.getConnection();
+		int result = new BoardDao().deleteBoard(conn, boardNo);
+
+		if (result > 0) {
+			JdbcTemplate.commit(conn);
+		} else {
+			JdbcTemplate.rollback(conn);
+		}
+		JdbcTemplate.close(conn);
+
+		return result;
+	}
 }

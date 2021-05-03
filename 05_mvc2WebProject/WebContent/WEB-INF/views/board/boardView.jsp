@@ -48,9 +48,9 @@
 						<!-- 로그인 한 상태, 작성자와 현재 로그인한 id가 같은 경우에만 수정 및 삭제 가능 --> <%
  	if (m != null && m.getMemberId().equals(b.getBoardWriter())) {
  %> <a class="btn btn-info"
-						href="/boardUpdateFrm?noticeNo=<%=b.getBoardNo()%>">수정하기</a> <a
+						href="/boardUpdateFrm?boardNo=<%=b.getBoardNo()%>">수정하기</a> <a
 						class="btn btn-info"
-						href="/boardDelete?noticeNo=<%=b.getBoardNo()%>">삭제하기</a> <%
+						href="/boardDelete?boardNo=<%=b.getBoardNo()%>">삭제하기</a> <%
  	}
  %>
 					</th>

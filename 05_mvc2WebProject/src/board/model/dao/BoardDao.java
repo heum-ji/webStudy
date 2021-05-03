@@ -98,10 +98,10 @@ public class BoardDao {
 		try {
 			pstmt = conn.prepareStatement(query);
 			pstmt.setInt(1, boardNo);
-			
+
 			rset = pstmt.executeQuery();
-			
-			if(rset.next()) {
+
+			if (rset.next()) {
 				b = setOneBoard(rset);
 			}
 		} catch (SQLException e) {
@@ -111,6 +111,27 @@ public class BoardDao {
 			JdbcTemplate.close(rset);
 		}
 		return b;
+	}
+
+	// 게시물 삭제
+	public int deleteBoard(Connection conn, int boardNo) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String query = "delete from board where board_no = ?";
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, boardNo);
+
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JdbcTemplate.close(pstmt);
+		}
+
+		return result;
+
 	}
 
 	// 게시물 저장용
