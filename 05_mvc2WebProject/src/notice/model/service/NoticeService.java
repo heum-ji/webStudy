@@ -116,4 +116,20 @@ public class NoticeService {
 		return result;
 	}
 
+	// 게시물 수정
+	public int updateNotice(Notice n) {
+		Connection conn = JdbcTemplate.getConnection();
+		int result = new NoticeDao().updateNotice(conn, n);
+
+		if (result > 0) {
+			JdbcTemplate.commit(conn);
+		} else {
+			JdbcTemplate.rollback(conn);
+		}
+
+		JdbcTemplate.close(conn);
+
+		return result;
+	}
+
 }

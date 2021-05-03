@@ -55,7 +55,6 @@ public class NoticeWriteServlet extends HttpServlet {
 		// 1) 파일 업로드 경로 지정
 		String root = getServletContext().getRealPath("/"); // WebContent 폴더 경로 가져오는 코드
 		String saveDirectory = root + "upload/notice"; // 파일저장 경로 지정
-		System.out.println("파일 저장경로 : " + saveDirectory);
 		// 2) 업로드 파일의 최대크기 지정 (일반적으로 웹은 10Mb 정도 사용)
 		int maxSize = 10 * 1024 * 1024;
 		// 3) request -> MultipartRequest객체로 변환
