@@ -39,7 +39,9 @@
 				%>
 				<tr class="table-light">
 					<td><%=b.getRnum()%></td>
-					<td><%=b.getBoardTitle()%></td>
+					<td style="text-align: left;"><a
+						href="/boardView?boardNo=<%=b.getBoardNo()%>"><%=b.getBoardTitle()%></a>
+						</td>
 					<td><%=b.getBoardWriter()%></td>
 					<td><%=b.getBoardDate()%></td>
 				</tr>

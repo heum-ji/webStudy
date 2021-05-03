@@ -80,6 +80,7 @@ public class BoardService {
 		return bpd;
 	}
 
+	// 게시물 작성
 	public int insertBoard(Board b) {
 		Connection conn = JdbcTemplate.getConnection();
 		int result = new BoardDao().insertBoard(conn, b);
@@ -92,5 +93,15 @@ public class BoardService {
 		JdbcTemplate.close(conn);
 
 		return result;
+	}
+
+	// 게시물 조회 - 게시물 번호
+	public Board selectOneBoard(int boardNo) {
+		Connection conn = JdbcTemplate.getConnection();
+		Board b = new BoardDao().selectOneBoard(conn, boardNo);
+
+		JdbcTemplate.close(conn);
+
+		return b;
 	}
 }

@@ -60,6 +60,7 @@ public class BoardDao {
 		return result;
 	}
 
+	// 게시물 작성
 	public int insertBoard(Connection conn, Board b) {
 		PreparedStatement pstmt = null;
 		int result = 0;
@@ -85,6 +86,31 @@ public class BoardDao {
 			JdbcTemplate.close(pstmt);
 		}
 		return result;
+	}
+
+	// 게시물 1개 조회
+	public Board selectOneBoard(Connection conn, int boardNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String query = "select * from board where board_no = ?";
+		Board b = null;
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, boardNo);
+			
+			rset = pstmt.executeQuery();
+			
+			if(rset.next()) {
+				b = setOneBoard(rset);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JdbcTemplate.close(pstmt);
+			JdbcTemplate.close(rset);
+		}
+		return b;
 	}
 
 	// 게시물 저장용

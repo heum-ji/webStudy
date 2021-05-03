@@ -59,6 +59,11 @@ public class Board {
 		this.boardWriter = boardWriter;
 	}
 
+	// 게시물 내용 엔터키를 <br>태그로 변경
+	public String getBoardContentBr() {
+		return boardContent.replaceAll("\r\n", "<br>");
+	}
+
 	public String getBoardContent() {
 		return boardContent;
 	}
