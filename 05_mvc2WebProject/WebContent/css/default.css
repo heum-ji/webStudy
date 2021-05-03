@@ -38,6 +38,12 @@ body>*{
 	height:450px;
 	resize: none;
 }
+
+[name=boardContent].form-control{
+	height:450px;
+	resize: none;
+}
+
 .inputCommentBox ul{
 	list-style-type: none;
 	padding : 0;

@@ -17,6 +17,16 @@
 	<div class="container">
 		<fieldset>
 			<legend>자유게시판</legend>
+			<!-- 로그인 하면 아무나 가능 - 준회원은 로그인 권한x -->
+			<%
+				if (m != null) {
+			%>
+			<div>
+				<a class="btn btn-info writeBtn" href="boardWriteFrm">글쓰기</a>
+			</div>
+			<%
+				}
+			%>
 			<table class="table-hover" style="width: 100%;">
 				<tr class="table-primary">
 					<th>글번호</th>

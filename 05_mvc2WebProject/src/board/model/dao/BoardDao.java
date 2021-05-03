@@ -11,6 +11,7 @@ import common.JdbcTemplate;
 
 public class BoardDao {
 
+	// 게시물 전체 조회
 	public ArrayList<Board> selectBoardList(Connection conn, int start, int end) {
 		PreparedStatement pstmt = null;
 		ResultSet rset = null;
@@ -59,7 +60,52 @@ public class BoardDao {
 		return result;
 	}
 
+	public int insertBoard(Connection conn, Board b) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String query = "insert into board values(board_seq.nextval,?,?,?,to_char(sysdate, 'yyyy-mm-dd'),?,?)";
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, b.getBoardTitle());
+			pstmt.setString(2, b.getBoardWriter());
+			// 내용 공백 체크
+			if (b.getBoardContent().equals("")) {
+				pstmt.setString(3, "내용없음");
+			} else {
+				pstmt.setString(3, b.getBoardContent());
+			}
+			pstmt.setString(4, b.getFilename());
+			pstmt.setString(5, b.getFilepath());
+
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JdbcTemplate.close(pstmt);
+		}
+		return result;
+	}
+
 	// 게시물 저장용
+	public Board setOneBoard(ResultSet rset) {
+		Board board = new Board();
+
+		try {
+			board.setFilename(rset.getString("filename"));
+			board.setFilepath(rset.getString("filepath"));
+			board.setBoardContent(rset.getString("board_content"));
+			board.setBoardDate(rset.getString("board_date"));
+			board.setBoardNo(rset.getInt("board_no"));
+			board.setBoardTitle(rset.getString("board_title"));
+			board.setBoardWriter(rset.getString("board_writer"));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return board;
+	}
+
+	// 게시물 리스트 저장용
 	public Board setBoard(ResultSet rset) {
 		Board board = new Board();
 

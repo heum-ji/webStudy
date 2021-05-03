@@ -166,6 +166,7 @@ public class NoticeDao {
 		return result;
 	}
 
+	// 게시물 업데이트
 	public int updateNotice(Connection conn, Notice n) {
 		PreparedStatement pstmt = null;
 		int result = 0;

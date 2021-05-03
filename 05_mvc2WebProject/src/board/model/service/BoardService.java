@@ -10,6 +10,7 @@ import common.JdbcTemplate;
 
 public class BoardService {
 
+	// 게시물 목록 조회
 	public BoardPageData selectBoardList(int reqPage) {
 		Connection conn = JdbcTemplate.getConnection();
 		// 한페이지에 보여줄 게시물 개수
@@ -77,5 +78,19 @@ public class BoardService {
 		// data 전송
 		BoardPageData bpd = new BoardPageData(list, pageNavi);
 		return bpd;
+	}
+
+	public int insertBoard(Board b) {
+		Connection conn = JdbcTemplate.getConnection();
+		int result = new BoardDao().insertBoard(conn, b);
+
+		if (result > 0) {
+			JdbcTemplate.commit(conn);
+		} else {
+			JdbcTemplate.rollback(conn);
+		}
+		JdbcTemplate.close(conn);
+
+		return result;
 	}
 }
