@@ -60,6 +60,31 @@ public class NoticeDao {
 		return result;
 	}
 
+	// 게시물 1개 조회
+	public Notice selectOneNotice(Connection conn, int noticeNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String query = "select * from notice where notice_no = ?";
+		Notice n = null;
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, noticeNo);
+
+			rset = pstmt.executeQuery();
+
+			if (rset.next()) {
+				n = setOneNotice(rset);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JdbcTemplate.close(pstmt);
+			JdbcTemplate.close(rset);
+		}
+		return n;
+	}
+
 	// 공지사항 저장용
 	public Notice setNotice(ResultSet rset) {
 		Notice notice = new Notice();
@@ -77,6 +102,47 @@ public class NoticeDao {
 			e.printStackTrace();
 		}
 		return notice;
+	}
+
+	// 공지사항 조회용
+	public Notice setOneNotice(ResultSet rset) {
+		Notice notice = new Notice();
+
+		try {
+			notice.setFilename(rset.getString("filename"));
+			notice.setFilepath(rset.getString("filepath"));
+			notice.setNoticeContent(rset.getString("notice_content"));
+			notice.setNoticeDate(rset.getString("notice_date"));
+			notice.setNoticeNo(rset.getInt("notice_no"));
+			notice.setNoticeTitle(rset.getString("notice_title"));
+			notice.setNoticeWriter(rset.getString("notice_writer"));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return notice;
+	}
+
+	// 게시물 작성
+	public int insertNotice(Connection conn, Notice n) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String query = "insert into notice values(notice_seq.nextval,?,?,?,to_char(sysdate, 'yyyy-mm-dd'),?,?)";
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, n.getNoticeTitle());
+			pstmt.setString(2, n.getNoticeWriter());
+			pstmt.setString(3, n.getNoticeContent());
+			pstmt.setString(4, n.getFilename());
+			pstmt.setString(5, n.getFilepath());
+
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JdbcTemplate.close(pstmt);
+		}
+		return result;
 	}
 
 }

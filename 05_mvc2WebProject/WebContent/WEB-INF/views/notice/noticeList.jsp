@@ -18,11 +18,15 @@
 		<fieldset>
 			<legend>공지사항</legend>
 			<!-- 로그인하고, 등급이 관리자인 경우 -->
-			<%if(m != null && m.getMemberLevel() == 1) { %>
+			<%
+				if (m != null && m.getMemberLevel() == 1) {
+			%>
 			<div>
 				<a class="btn btn-info writeBtn" href="noticeWriteFrm">글쓰기</a>
 			</div>
-			<%} %>
+			<%
+				}
+			%>
 			<table class="table-hover" style="width: 100%;">
 				<tr class="table-primary">
 					<th>번호</th>
@@ -35,7 +39,9 @@
 				%>
 				<tr class="table-light">
 					<td><%=n.getRnum()%></td>
-					<td><%=n.getNoticeTitle()%></td>
+					<td style="text-align: left;"><a
+						href="/noticeView?noticeNo=<%=n.getNoticeNo()%>"><%=n.getNoticeTitle()%></a>
+						</td>
 					<td><%=n.getNoticeWriter()%></td>
 					<td><%=n.getNoticeDate()%></td>
 				</tr>

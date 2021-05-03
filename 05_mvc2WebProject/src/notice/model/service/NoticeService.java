@@ -4,12 +4,15 @@ import java.sql.Connection;
 import java.util.ArrayList;
 
 import common.JdbcTemplate;
+import member.model.dao.MemberDao;
+import member.model.vo.Member;
 import notice.model.dao.NoticeDao;
 import notice.model.vo.Notice;
 import notice.model.vo.NoticePageData;
 
 public class NoticeService {
 
+	// 공지사항 목록 불러오기
 	public NoticePageData selectNoticeList(int reqPage) {
 		Connection conn = JdbcTemplate.getConnection();
 		// 1. 한페이지에 게시물을 몇개 보여줄지 : 한 페이지당 10개씩 보여줌
@@ -42,7 +45,7 @@ public class NoticeService {
 			pageNavi += "<li class='page-item'>";
 			pageNavi += "<a class='page-link' href='/noticeList?reqPage=" + (pageNo - 1) + "'>&lt</a></li>"; // &lt : <
 		}
-			
+
 		for (int i = 0; i < pageNaviSize; i++) {
 			// 현재 페이지가 요청한 페이지 인 경우
 			if (pageNo == reqPage) {
@@ -64,12 +67,37 @@ public class NoticeService {
 			pageNavi += "<a class='page-link' href='/noticeList?reqPage=" + pageNo + "'>&gt</a></li>"; // &gt : >
 		}
 		pageNavi += "</ul>";
-		
+
 		JdbcTemplate.close(conn);
-		
+
 		// 완성된 data 전달
 		NoticePageData npd = new NoticePageData(list, pageNavi);
 		return npd;
+	}
+
+	// 게시물 작성
+	public int insertNotice(Notice n) {
+		Connection conn = JdbcTemplate.getConnection();
+		int result = new NoticeDao().insertNotice(conn, n);
+
+		if (result > 0) {
+			JdbcTemplate.commit(conn);
+		} else {
+			JdbcTemplate.rollback(conn);
+		}
+		JdbcTemplate.close(conn);
+
+		return result;
+	}
+
+	// 게시물 no 조회
+	public Notice selectOneNotice(int noticeNo) {
+		Connection conn = JdbcTemplate.getConnection();
+		Notice n = new NoticeDao().selectOneNotice(conn, noticeNo);
+
+		JdbcTemplate.close(conn);
+
+		return n;
 	}
 
 }

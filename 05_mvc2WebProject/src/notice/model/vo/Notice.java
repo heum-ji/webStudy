@@ -59,6 +59,11 @@ public class Notice {
 		this.noticeWriter = noticeWriter;
 	}
 
+	// 게시물 내용 엔터키를 <br>태그로 변경
+	public String getNoticeContentBr() {
+		return noticeContent.replaceAll("\r\n", "<br>");
+	}
+
 	public String getNoticeContent() {
 		return noticeContent;
 	}
