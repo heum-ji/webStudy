@@ -31,7 +31,8 @@
 					<th colspan="3">
 						<%
 							if (n.getFilename() != null) {
-						%> <img src="/img/file.png" width="16px"><%=n.getFilename()%>
+						%> <img src="/img/file.png" width="16px"> <a
+						href="/fileDown?noticeNo=<%=n.getNoticeNo()%>"><%=n.getFilename()%></a>
 						<%
 							}
 						%>
