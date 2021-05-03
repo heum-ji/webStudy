@@ -90,7 +90,7 @@ public class NoticeService {
 		return result;
 	}
 
-	// 게시물 no 조회
+	// 게시물 조회 - 게시물 번호
 	public Notice selectOneNotice(int noticeNo) {
 		Connection conn = JdbcTemplate.getConnection();
 		Notice n = new NoticeDao().selectOneNotice(conn, noticeNo);
@@ -98,6 +98,22 @@ public class NoticeService {
 		JdbcTemplate.close(conn);
 
 		return n;
+	}
+
+	// 게시물 삭제
+	public int deleteNotice(int noticeNo) {
+		Connection conn = JdbcTemplate.getConnection();
+		int result = new NoticeDao().deleteNotice(conn, noticeNo);
+
+		if (result > 0) {
+			JdbcTemplate.commit(conn);
+		} else {
+			JdbcTemplate.rollback(conn);
+		}
+
+		JdbcTemplate.close(conn);
+
+		return result;
 	}
 
 }

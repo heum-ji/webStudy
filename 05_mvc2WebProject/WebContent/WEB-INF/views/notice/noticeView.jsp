@@ -42,6 +42,19 @@
 					<th>내용</th>
 					<th colspan="3"><%=n.getNoticeContentBr()%></th>
 				</tr>
+				<tr class="table-light">
+					<th colspan="4" style="text-align: center;">
+						<button class="btn btn-info" onclick="history.go(-1);">이전화면</button>
+						<%
+							if (m != null && m.getMemberId().equals(n.getNoticeWriter())) {
+						%> <a class="btn btn-info"
+						href="/noticeUpdateFrm?noticeNo=<%=n.getNoticeNo()%>">수정하기</a> <a
+						class="btn btn-info"
+						href="/noticeDelete?noticeNo=<%=n.getNoticeNo()%>">삭제하기</a> <%
+ 	}
+ %>
+					</th>
+				</tr>
 			</table>
 		</fieldset>
 	</div>
