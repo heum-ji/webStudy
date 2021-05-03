@@ -63,9 +63,11 @@ public class NoticeService {
 			pageNavi += "<li class='page-item'>";
 			pageNavi += "<a class='page-link' href='/noticeList?reqPage=" + pageNo + "'>&gt</a></li>"; // &gt : >
 		}
-
 		pageNavi += "</ul>";
+		
 		JdbcTemplate.close(conn);
+		
+		// 완성된 data 전달
 		NoticePageData npd = new NoticePageData(list, pageNavi);
 		return npd;
 	}
