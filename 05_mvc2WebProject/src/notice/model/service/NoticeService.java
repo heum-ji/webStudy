@@ -4,11 +4,11 @@ import java.sql.Connection;
 import java.util.ArrayList;
 
 import common.JdbcTemplate;
-import member.model.dao.MemberDao;
-import member.model.vo.Member;
 import notice.model.dao.NoticeDao;
 import notice.model.vo.Notice;
+import notice.model.vo.NoticeComment;
 import notice.model.vo.NoticePageData;
+import notice.model.vo.NoticeViewData;
 
 public class NoticeService {
 
@@ -100,6 +100,20 @@ public class NoticeService {
 		return n;
 	}
 
+	// 댓글 불러오기
+	public NoticeViewData selectNoticeView(int noticeNo) {
+		Connection conn = JdbcTemplate.getConnection();
+		NoticeDao dao = new NoticeDao();
+
+		Notice n = new NoticeDao().selectOneNotice(conn, noticeNo);
+		ArrayList<NoticeComment> list = dao.selectNoticeCommentList(conn, noticeNo);
+
+		JdbcTemplate.close(conn);
+
+		NoticeViewData nvd = new NoticeViewData(n, list);
+		return nvd;
+	}
+
 	// 게시물 삭제
 	public int deleteNotice(int noticeNo) {
 		Connection conn = JdbcTemplate.getConnection();
@@ -120,6 +134,22 @@ public class NoticeService {
 	public int updateNotice(Notice n) {
 		Connection conn = JdbcTemplate.getConnection();
 		int result = new NoticeDao().updateNotice(conn, n);
+
+		if (result > 0) {
+			JdbcTemplate.commit(conn);
+		} else {
+			JdbcTemplate.rollback(conn);
+		}
+		JdbcTemplate.close(conn);
+
+		return result;
+	}
+
+	// 댓글 생성
+	public int insertComment(NoticeComment nc) {
+		Connection conn = JdbcTemplate.getConnection();
+
+		int result = new NoticeDao().insertComment(conn, nc);
 
 		if (result > 0) {
 			JdbcTemplate.commit(conn);

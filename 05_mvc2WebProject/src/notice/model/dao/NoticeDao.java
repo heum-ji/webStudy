@@ -8,8 +8,34 @@ import java.util.ArrayList;
 
 import common.JdbcTemplate;
 import notice.model.vo.Notice;
+import notice.model.vo.NoticeComment;
 
 public class NoticeDao {
+
+	// 댓글 불러오기
+	public ArrayList<NoticeComment> selectNoticeCommentList(Connection conn, int noticeNo) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		ArrayList<NoticeComment> list = new ArrayList<NoticeComment>();
+		String query = "select * from notice_comment where notice_ref = ?";
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, noticeNo);
+
+			rset = pstmt.executeQuery();
+
+			while (rset.next()) {
+				list.add(setNoticeComment(rset));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JdbcTemplate.close(rset);
+			JdbcTemplate.close(pstmt);
+		}
+		return list;
+	}
 
 	// 게시물 목록 불러오기
 	public ArrayList<Notice> selectNoticeList(Connection conn, int start, int end) {
@@ -83,6 +109,24 @@ public class NoticeDao {
 			JdbcTemplate.close(rset);
 		}
 		return n;
+	}
+
+	// 댓글 저장용
+	public NoticeComment setNoticeComment(ResultSet rset) {
+		NoticeComment nc = new NoticeComment();
+
+		try {
+			nc.setNcContent(rset.getString("nc_content"));
+			nc.setNcDate(rset.getString("nc_date"));
+			nc.setNcLevel(rset.getInt("nc_level"));
+			nc.setNcNo(rset.getInt("nc_no"));
+			nc.setNcRef(rset.getInt("nc_ref"));
+			nc.setNcWriter(rset.getString("nc_writer"));
+			nc.setNoticeRef(rset.getInt("notice_ref"));
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return nc;
 	}
 
 	// 공지사항 저장용
@@ -197,4 +241,28 @@ public class NoticeDao {
 		return result;
 	}
 
+	// 댓글 작성
+	public int insertComment(Connection conn, NoticeComment nc) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String query = "insert into notice_comment values(nc_seq.nextval,?,?,?,to_char(sysdate, 'yyyy-mm-dd'),?,?)";
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, nc.getNcLevel());
+			pstmt.setString(2, nc.getNcWriter());
+			pstmt.setString(3, nc.getNcContent());
+			pstmt.setInt(4, nc.getNoticeRef());
+
+			// 참조가 0 이면 댓글 / 참조 null 처리
+			pstmt.setString(5, (nc.getNcRef() == 0) ? null : String.valueOf(nc.getNcRef()));
+
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JdbcTemplate.close(pstmt);
+		}
+		return result;
+	}
 }
