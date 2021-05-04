@@ -265,4 +265,43 @@ public class NoticeDao {
 		}
 		return result;
 	}
+
+	// 댓글 수정
+	public int updateNoticeComment(Connection conn, int ncNo, String ncContent) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+
+		String query = "update notice_comment set nc_content = ? where nc_no = ?";
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setString(1, ncContent);
+			pstmt.setInt(2, ncNo);
+
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JdbcTemplate.close(pstmt);
+		}
+		return result;
+	}
+
+	// 댓글 삭제
+	public int deleteNoticeComment(Connection conn, int ncNo) {
+		PreparedStatement pstmt = null;
+		int result = 0;
+		String query = "delete from notice_comment where nc_no = ?";
+
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, ncNo);
+
+			result = pstmt.executeUpdate();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JdbcTemplate.close(pstmt);
+		}
+		return result;
+	}
 }

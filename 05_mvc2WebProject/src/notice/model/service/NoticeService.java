@@ -161,4 +161,34 @@ public class NoticeService {
 		return result;
 	}
 
+	// 댓글 수정
+	public int updateNoticeComment(int ncNo, String ncContent) {
+		Connection conn = JdbcTemplate.getConnection();
+		int result = new NoticeDao().updateNoticeComment(conn, ncNo, ncContent);
+
+		if (result > 0) {
+			JdbcTemplate.commit(conn);
+		} else {
+			JdbcTemplate.rollback(conn);
+		}
+		JdbcTemplate.close(conn);
+
+		return result;
+	}
+
+	// 댓글 삭제
+	public int deleteNoticeComment(int ncNo) {
+		Connection conn = JdbcTemplate.getConnection();
+		int result = new NoticeDao().deleteNoticeComment(conn, ncNo);
+
+		if (result > 0) {
+			JdbcTemplate.commit(conn);
+		} else {
+			JdbcTemplate.rollback(conn);
+		}
+		JdbcTemplate.close(conn);
+
+		return result;
+	}
+
 }
