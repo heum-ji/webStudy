@@ -157,6 +157,7 @@
 		</div>
 	</div>
 	<script>
+		// 답글 달기 클릭 시
 		$(".recShow").on("click", function() {
 			var idx = $(".recShow").index(this); // 클릭한게 몇번째 답글 달기 버튼인지 확인
 			$(this).hide();
