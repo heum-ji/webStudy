@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import common.JdbcTemplate;
 import photo.model.vo.Photo;
@@ -52,5 +53,39 @@ public class PhotoDao {
 			JdbcTemplate.close(pstmt);
 		}
 		return result;
+	}
+	
+	// 사진 더보기
+	public ArrayList<Photo> morePhoto(Connection conn, int start, int end) {
+		PreparedStatement pstmt = null;
+		ResultSet rset = null;
+		String query = "select * from(select rownum as rnum, p.* from (select * from photo order by photo_no desc) p ) where rnum between ? and ?";
+		ArrayList<Photo> list = new ArrayList<Photo>();
+		
+		try {
+			pstmt = conn.prepareStatement(query);
+			pstmt.setInt(1, start);
+			pstmt.setInt(2, end);
+			
+			rset = pstmt.executeQuery();
+			
+			while(rset.next()) {
+				Photo p = new Photo();
+				
+				p.setFilepath(rset.getString("filepath"));
+				p.setPhotoContent(rset.getString("photo_content"));
+				p.setPhotoDate(rset.getString("photo_date"));
+				p.setPhotoNo(rset.getInt("photo_no"));
+				p.setPhotoWriter(rset.getString("photo_writer"));
+				
+				list.add(p);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JdbcTemplate.close(rset);
+			JdbcTemplate.close(pstmt);
+		}
+		return list;
 	}
 }
