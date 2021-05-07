@@ -16,7 +16,7 @@
 		<form action="/join" method="post" name="joinFrm">
 			<legend>회원가입</legend>
 			<div class="form-group">
-				<label class="control-label" for="memberId" style="display: block;">아이디</label>
+				<label class="control-label" for="memberId" style="display: block;">아이디<span id="ajaxCheck"></span></label>
 				<input type="text" name="memberId" id="memberId"
 					class="form-control" style="width: 90%; display: inline-block">
 				<button type="button" id="idChk" class="btn btn-success">중복체크</button>
@@ -43,25 +43,44 @@
 	</div>
 	<%@include file="/WEB-INF/views/common/footer.jsp"%>
 	<script>
-		$("#idChk")
-				.on(
-						"click",
-						function() {
-							var memberId = $("#memberId").val();
+	$("#idChk")
+    .on(
+      "click",
+      function () {
+        var memberId = $("#memberId").val();
 
-							if (memberId == "") {
-								alert("아이디를 입력하세요!!");
-								return;
-							}
-							$("[name=checkId]").val(memberId);
-							// 아이디 중복체크 팝업창을 설정
-							window
-									.open("", "checkId",
-											"left=500px, top=300px, width=300px, height=200px");
-							// 팝업창과 [name=checkIdFrm]인 form 태그를 연결
-							$("[name=checkIdFrm]").attr("target", "checkId");
-							$("[name=checkIdFrm]").submit(); // 폼태그 제출
-						});
+        if (memberId == "") {
+          alert("아이디를 입력하세요!!");
+          return;
+        }
+        $("[name=checkId]").val(memberId);
+        // 아이디 중복체크 팝업창을 설정
+        window
+          .open("", "checkId",
+            "left=500px, top=300px, width=300px, height=200px");
+        // 팝업창과 [name=checkIdFrm]인 form 태그를 연결
+        $("[name=checkIdFrm]").attr("target", "checkId");
+        $("[name=checkIdFrm]").submit(); // 폼태그 제출
+      });
+
+	$("[name=memberId").on("keyup", function () {
+	    var memberId = $(this).val();
+
+	    $.ajax({
+	      url: "/ajaxIdCheck",
+	      data: { memberId: memberId },
+	      type: "get",
+	      success: function (data) {
+	        if (data == 1) {
+	          $("#ajaxCheck").html(" 이미 사용중인 아이디 입니다.");
+	          $("#ajaxCheck").css("color", "red");
+	        } else {
+	          $("#ajaxCheck").html(" 사용 가능한 아이디 입니다.");
+	          $("#ajaxCheck").css("color", "blue");
+	        }
+	      }
+	    });
+	  });
 	</script>
 </body>
 </html>
