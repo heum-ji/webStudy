@@ -19,6 +19,72 @@
 			<span id="authMsg"></span>
 		</div>
 	</div>
+	<script>
+	var mailCode;
+	
+	$("#sendMail").on("click", function () {
+	    var email = $("#email").val();
+
+	    $.ajax({
+	      url: "/sendMail",
+	      data: { email: email },
+	      success: function (data) {
+	    	mailCode = data;
+	        $("#auth").slideDown();
+	        authTime();
+	      }
+	    });
+	  });
+		
+	$("#authBtn").click(function () {
+	    if ($("#authCode").val() == mailCode) {
+	      $("#authMsg").html("인증성공");
+	      $("#authMsg").css("color", "blue");
+	      clearInterval(intervalId); // interval 종료
+	      $("#timeZone").empty();
+	    } else {
+	      $("#authMsg").html("인증번호를 확인하세요");
+	      $("#authMsg").css("color", "red");
+	    }
+	  });
+	
+	var intervalId;
+	
+	function authTime() {
+	    $("#timeZone").append("<span id = 'min'>3</span> : <span id='sec'>00</span>")
+	    intervalId = window.setInterval(function() {
+	    	timeCount();
+	    }, 1000);
+	  }
+
+	function timeCount() {
+	    var min = Number($("#min").html());
+	    var sec = $("#sec").html();
+
+	    // 00초 처리
+	    if (sec == "00") {
+	      // 0분 인 경우
+	      if (min == 0) {
+	        mailCode = null;
+	        clearInterval(intervalId); // interval 종료
+	      } else {
+	        $("#min").html(--min);
+	        $("#sec").html(59);
+	      }
+	    } else { // 초 감소
+	      var newSec = Number(sec);
+	      newSec--;
+
+	      // 1자리 초 처리
+	      if (newSec < 10) {
+	        $("#sec").html("0" + newSec);
+	      } else {
+	        $("#sec").html(newSec);
+	      }
+	    }
+	  }
+		
+	</script>
 	<%@include file="/WEB-INF/views/common/footer.jsp"%>
 </body>
 </html>
