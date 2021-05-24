@@ -4,15 +4,15 @@
 
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Index</title>
+    <title>elTest3</title>
   </head>
 
   <body>
-    <h1>메인페이지입니다!!!!</h1>
-    <form action="/testFilter">
-      <input type="text" name="param">
-      <input type="submit" value="전송">
-    </form>
+    <h1>공지사항 출력</h1>
+    <hr>
+    <h2>이름 : ${n.noticeTitle}</h2>
+    <h2>내용 : ${n.noticeContent}</h2>
+    <h2>내용2 : ${n.noticeContentBr}</h2>
   </body>
 
   </html>

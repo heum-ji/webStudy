@@ -4,15 +4,14 @@
 
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Index</title>
+    <title>elTest5</title>
   </head>
 
   <body>
-    <h1>메인페이지입니다!!!!</h1>
-    <form action="/testFilter">
-      <input type="text" name="param">
-      <input type="submit" value="전송">
-    </form>
+    <h1>Map 출력</h1>
+    <h2>이름 : ${map.name}</h2>
+    <h2>전화번호 : ${map.phone}</h2>
+    <h2>주소 : ${map.address}</h2>
   </body>
 
   </html>
