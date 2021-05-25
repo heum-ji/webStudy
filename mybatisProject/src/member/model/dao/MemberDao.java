@@ -1,5 +1,8 @@
 package member.model.dao;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.apache.ibatis.session.SqlSession;
 
 import member.model.vo.Member;
@@ -32,6 +35,11 @@ public class MemberDao {
 	// 회원 탈퇴
 	public int deleteMember(SqlSession session, String memberId) {
 		return session.update("member.deleteMember", memberId);
+	}
+
+	// 전체 회원 조회
+	public List<Member> selectAllMember(SqlSession session) {
+		return session.selectList("member.selectAllMember");
 	}
 
 }

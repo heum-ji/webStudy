@@ -36,4 +36,15 @@
 	<delete id="deleteMember" parameterType="string">
 		delete from member where member_id = #{ memberId }
 	</delete>
+	
+	<select id="selectAllMember" resultType="m">
+		select 
+			member_id as memberId,
+			member_name as memberName,
+			phone,
+			address,
+			gender 
+		from member order by member_id
+	</select>
+	
 </mapper>

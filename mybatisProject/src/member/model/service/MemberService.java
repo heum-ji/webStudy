@@ -2,6 +2,7 @@ package member.model.service;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
@@ -91,6 +92,15 @@ public class MemberService {
 		session.close();
 
 		return result;
+	}
+
+	// 전체 회원 조회
+	public ArrayList<Member> selectAllMember() {
+		SqlSession session = getSqlSession(); 
+		ArrayList<Member> list =  (ArrayList<Member>) new MemberDao().selectAllMember(session);
+
+		session.close();
+		return list;
 	}
 
 }
