@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="player">
+	<select id="selectOnePlayer" parameterType="p" resultType="p">
+		select
+			player_id as playerId,
+			player_pw as playerPw,
+			nickname,
+			player_tier as playerTier,
+			player_ip as playerIp,
+			player_rp as playerRp,
+			player_level as playerLevel
+		from player where player_id = #{ playerId } and player_pw = #{ playerPw }
+	</select>
+</mapper>
