@@ -12,4 +12,28 @@
 			gender
 		from member where member_id = #{ memberId } and member_pw = #{ memberPw }
 	</select>
+	
+	<select id="selectOneMemberId" parameterType="string" resultType="m">
+		select
+			member_id as memberId,
+			member_pw as memberPw,
+			member_name as memberName,
+			phone,
+			address,
+			gender
+		from member where member_id = #{ memberId }
+	</select>
+	
+	<!-- insert/update/delete 는 resultType이 기본적으로 항상 int / 생략 가능 -->
+	<insert id="insertMember" parameterType="m">
+		insert into member values(#{memberId}, #{memberPw} , #{memberName}, #{phone}, #{address}, #{gender})
+	</insert>
+	
+	<update id="updateMember" parameterType="m">
+		update member set member_pw = #{memberPw}, member_name = #{memberName}, phone = #{phone}, address = #{address}, gender = #{gender} where member_id = #{memberId} 
+	</update>
+	
+	<delete id="deleteMember" parameterType="string">
+		delete from member where member_id = #{ memberId }
+	</delete>
 </mapper>
