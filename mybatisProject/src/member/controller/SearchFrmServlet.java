@@ -1,7 +1,6 @@
 package member.controller;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -10,20 +9,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import member.model.service.MemberService;
-import member.model.vo.Member;
-
 /**
- * Servlet implementation class SelectAllMemberServlet
+ * Servlet implementation class SearchFrmServlet
  */
-@WebServlet(name = "SelectAllMember", urlPatterns = { "/selectAllMember" })
-public class SelectAllMemberServlet extends HttpServlet {
+@WebServlet(name = "SearchFrm", urlPatterns = { "/searchFrm" })
+public class SearchFrmServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public SelectAllMemberServlet() {
+	public SearchFrmServlet() {
 		super();
 	}
 
@@ -33,14 +29,7 @@ public class SelectAllMemberServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// 1. 인코딩
-		request.setCharacterEncoding("utf-8");
-		// 2. 값추출
-		// 3. 비지니스 로직
-		List<Member> list = new MemberService().selectAllMember();
-		// 4. 결과처리
-		RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/views/member/allMember.jsp");
-		request.setAttribute("list", list);
+		RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/views/member/search.jsp");
 		rd.forward(request, response);
 	}
 

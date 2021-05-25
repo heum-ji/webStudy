@@ -1,5 +1,6 @@
 package member.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.session.SqlSession;
@@ -39,6 +40,11 @@ public class MemberDao {
 	// 전체 회원 조회
 	public List<Member> selectAllMember(SqlSession session) {
 		return session.selectList("member.selectAllMember");
+	}
+
+	// 아이디 찾기
+	public String selectOneMember(SqlSession session, HashMap<String, Object> map) {
+		return session.selectOne("member.idSearch", map);
 	}
 
 }

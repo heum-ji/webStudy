@@ -47,4 +47,7 @@
 		from member order by member_id
 	</select>
 	
+	<select id="idSearch" parameterType="hashmap" resultType="string">
+		select member_id as memberId from member where member_name = #{ memberName } and phone = #{ phone }
+	</select>
 </mapper>
