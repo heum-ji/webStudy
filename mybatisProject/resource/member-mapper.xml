@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper>
-  <cache-ref namespace=""/>
+<mapper namespace="member">
+	<!-- parameterType : input // resultType : output -->
+	<select id="selectOneMember" parameterType="m" resultType="m"> <!-- Member 객체를 m으로 별칭 지정해서 사용 가능 -->
+		select
+			member_id as memberId,
+			member_pw as memberPw,
+			member_name as memberName,
+			phone,
+			address,
+			gender
+		from member where member_id = #{ memberId } and member_pw = #{ memberPw }
+	</select>
 </mapper>
