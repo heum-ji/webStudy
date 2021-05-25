@@ -43,8 +43,13 @@ public class MemberDao {
 	}
 
 	// 아이디 찾기
-	public String selectOneMember(SqlSession session, HashMap<String, Object> map) {
+	public String selectOneMemberId(SqlSession session, HashMap<String, Object> map) {
 		return session.selectOne("member.idSearch", map);
+	}
+
+	// 비밀번호 찾기
+	public String selectOneMemberPw(SqlSession session, HashMap<String, String> map) {
+		return session.selectOne("member.pwSearch", map);
 	}
 
 }

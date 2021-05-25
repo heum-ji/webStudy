@@ -105,7 +105,7 @@ public class MemberService {
 	}
 
 	// 아이디 찾기
-	public String selectOneMember(String memberName, String phone) {
+	public String selectOneMemberId(String memberName, String phone) {
 		SqlSession session = getSqlSession();
 		// int num1 = 10;
 		// int num2 = 200;
@@ -114,11 +114,25 @@ public class MemberService {
 		map.put("phone", phone);
 		// map.put("num1", num1);
 		// map.put("num1", num2);
-		String memberId = new MemberDao().selectOneMember(session, map);
+		String memberId = new MemberDao().selectOneMemberId(session, map);
 
 		session.close();
 
 		return memberId;
+	}
+
+	// 비밀번호 찾기
+	public String selectOneMemberPw(String memberId, String phone) {
+		SqlSession session = getSqlSession();
+		HashMap<String, String> map = new HashMap<String, String>();
+		map.put("memberId", memberId);
+		map.put("phone", phone);
+
+		String memberPw = new MemberDao().selectOneMemberPw(session, map);
+
+		session.close();
+
+		return memberPw;
 	}
 
 }
