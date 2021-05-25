@@ -2,6 +2,7 @@ package member.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -37,7 +38,7 @@ public class SelectAllMemberServlet extends HttpServlet {
 		request.setCharacterEncoding("utf-8");
 		// 2. 값추출
 		// 3. 비지니스 로직
-		ArrayList<Member> list = new MemberService().selectAllMember();
+		List<Member> list = new MemberService().selectAllMember();
 		// 4. 결과처리
 		RequestDispatcher rd = request.getRequestDispatcher("WEB-INF/views/member/memberViewPage.jsp");
 		request.setAttribute("list", list);

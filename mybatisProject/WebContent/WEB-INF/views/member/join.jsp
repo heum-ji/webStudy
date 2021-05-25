@@ -17,7 +17,7 @@
 			이름 : <input type="text" name="memberName"><br>
 			전화번호 : <input type="text" name="phone" placeholder="01012345678"><br>
 			주소 : <input type="text" name="address"><br>
-			 성별: 
+			성별: 
 			 	<label>
 					<input type="radio" name="gender" value="남"> 남자
 				</label>
