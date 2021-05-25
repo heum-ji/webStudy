@@ -37,6 +37,8 @@
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="/view/payment.jsp">결제모듈</a>
                 <a class="dropdown-item" href="/view/movie.jsp">영화순위 API</a>
+                <a class="dropdown-item" href="/view/el/el.jsp">EL</a>
+                <a class="dropdown-item" href="/view/jstl/jstl.jsp">JSTL</a>
               </div>
             </li>
           </ul>

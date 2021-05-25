@@ -1,6 +1,7 @@
-package notice.controller;
+package jstl;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -9,21 +10,20 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import notice.model.service.NoticeService;
-import notice.model.vo.Notice;
-import notice.model.vo.NoticeViewData;
+import member.model.service.MemberService;
+import member.model.vo.Member;
 
 /**
- * Servlet implementation class NoticeViewServlet
+ * Servlet implementation class JstlTest3Servlet
  */
-@WebServlet(name = "NoticeView", urlPatterns = { "/noticeView" })
-public class NoticeViewServlet extends HttpServlet {
+@WebServlet(name = "JstlTest3", urlPatterns = { "/jstlTest3" })
+public class JstlTest3Servlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
-	public NoticeViewServlet() {
+	public JstlTest3Servlet() {
 		super();
 	}
 
@@ -33,16 +33,12 @@ public class NoticeViewServlet extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		// 1.인코딩
-		request.setCharacterEncoding("utf-8");
-		// 2. 값 추출
-		int noticeNo = Integer.parseInt(request.getParameter("noticeNo"));
-		// 3. 비지니스 로직
-		NoticeViewData nvd = new NoticeService().selectNoticeView(noticeNo);
+		// 2. 값추출
+		// 3. 비지니스로직
+		ArrayList<Member> list = new MemberService().selectAllMember();
 		// 4. 결과처리
-		RequestDispatcher rd = request.getRequestDispatcher("/WEB-INF/views/notice/noticeView1.jsp");
-		request.setAttribute("n", nvd.getN());
-		request.setAttribute("list", nvd.getList());
+		RequestDispatcher rd = request.getRequestDispatcher("/view/jstl/jstlTest4.jsp");
+		request.setAttribute("list", list);
 
 		rd.forward(request, response);
 	}
