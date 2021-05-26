@@ -54,4 +54,18 @@
 	<select id="pwSearch" parameterType="hashmap" resultType="string">
 		select member_pw as memberPw from member where member_id = #{ memberId } and phone = #{ phone }
 	</select>
+	
+	<select id="iftest" parameterType="hashmap" resultType="m">
+		select member_id as memberId
+		<if test="ckName != null and ckName.equals('on')">
+		, member_name as memberName
+		</if>
+		<if test="ckPhone != null and ckPhone.equals('on')">
+			, phone
+		</if>
+		<if test="ckAddress != null">
+			, address
+		</if>
+		from member
+	</select>
 </mapper>

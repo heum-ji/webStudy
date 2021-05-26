@@ -33,6 +33,16 @@
 			<a href="/mypage?memberId=${sessionScope.m.memberId }">마이페이지</a><br>
 			<a href="/logout">로그아웃</a><br>
 			<a href="/delete?memberId=${sessionScope.m.memberId }">회원 탈퇴</a>
+			<hr>
+			<h2>동적쿼리 if문</h2>
+			<h3>전체회원 조회 시 포함할 항목 선택</h3>
+			<form action="/ifTest" method="post">
+				<input type="checkbox" name="ckName"> 이름
+				<input type="checkbox" name="ckPhone"> 전화번호				
+				<input type="checkbox" name="ckAddress"> 주소
+				<br>
+				<input type="submit" value="조회">				
+			</form>
 		</c:otherwise>
 	</c:choose>
 </body>

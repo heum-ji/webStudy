@@ -2,6 +2,7 @@ package member.model.service;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -133,6 +134,20 @@ public class MemberService {
 		session.close();
 
 		return memberPw;
+	}
+
+	public ArrayList<Member> ifTest(String ckName, String ckPhone, String ckAddress) {
+		SqlSession session = getSqlSession();
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("ckName", ckName);
+		map.put("ckPhone", ckPhone);
+		map.put("ckAddress", ckAddress);
+		
+		ArrayList<Member> list = new MemberDao().ifTest(session, map);
+	
+		session.close();
+		
+		return list;
 	}
 
 }

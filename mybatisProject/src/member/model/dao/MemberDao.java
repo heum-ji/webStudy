@@ -1,5 +1,6 @@
 package member.model.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -50,6 +51,11 @@ public class MemberDao {
 	// 비밀번호 찾기
 	public String selectOneMemberPw(SqlSession session, HashMap<String, String> map) {
 		return session.selectOne("member.pwSearch", map);
+	}
+
+	public ArrayList<Member> ifTest(SqlSession session, HashMap<String, Object> map) {
+		List<Member> list = session.selectList("member.iftest", map);
+		return (ArrayList<Member>) list;
 	}
 
 }
