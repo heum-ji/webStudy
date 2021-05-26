@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
 <mapper namespace="member">
 	<!-- parameterType : input // resultType : output -->
 	<select id="selectOneMember" parameterType="m" resultType="m"> <!-- Member 객체를 m으로 별칭 지정해서 사용 가능 -->
@@ -68,4 +69,55 @@
 		</if>
 		from member
 	</select>
+	
+	<select id="chooseTest" parameterType="hashmap" resultType="m">
+		select 
+			member_id as memberId,
+			member_name as memberName,
+			phone,
+			address,
+			gender 
+		from member
+		<choose>
+			<when test="type.equals('name')">
+				where member_name like '%' || #{ keyword } || '%'
+			</when>
+			<when test="type.equals('id')">
+				where member_id = #{ keyword }
+			</when>
+		</choose>
+	</select>
+	
+	<select id="searchTest" parameterType="hashmap" resultType="m">
+		select 
+			member_id as memberId,
+			member_name as memberName,
+			phone,
+			address,
+			gender 
+		from member
+		<!-- where 항상 붙이고 시작 + where 다음 and | or 지우기 -->
+		<trim prefix="where" prefixOverrides="and|or">
+			<if test="!name.equals('')">
+				member_name like '%' || #{ name } || '%'
+			</if>
+			<if test="!address.equals('')">
+				and address like '%' || #{ address } || '%'
+			</if>
+		</trim>
+	</select>
+	
+	<select id="foreachTest" parameterType="hashmap" resultType="m">
+		select 
+			member_id as memberId,
+			member_name as memberName,
+			phone,
+			address,
+			gender 
+		from member where member_name in
+		<foreach collection="array" item="memberName" open="(" close=")" separator=",">
+			#{ memberName }
+		</foreach>
+	</select>
+	
 </mapper>

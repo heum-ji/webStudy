@@ -53,8 +53,26 @@ public class MemberDao {
 		return session.selectOne("member.pwSearch", map);
 	}
 
+	// checkBox 선택 조회
 	public ArrayList<Member> ifTest(SqlSession session, HashMap<String, Object> map) {
 		List<Member> list = session.selectList("member.iftest", map);
+		return (ArrayList<Member>) list;
+	}
+
+	// 타입 + 키워드 검색
+	public ArrayList<Member> chooseTest(SqlSession session, HashMap<String, Object> map) {
+		List<Member> list = session.selectList("member.chooseTest", map);
+		return (ArrayList<Member>) list;
+	}
+
+	// 이름 + 주소 검색
+	public ArrayList<Member> searchTest(SqlSession session, HashMap<String, Object> map) {
+		List<Member> list = session.selectList("member.searchTest", map);
+		return (ArrayList<Member>) list;
+	}
+
+	public ArrayList<Member> foreachTest(SqlSession session, String[] name) {
+		List<Member> list = session.selectList("member.foreachTest", name);
 		return (ArrayList<Member>) list;
 	}
 

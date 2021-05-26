@@ -2,6 +2,7 @@ package member.model.service;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.SQLSyntaxErrorException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -136,15 +137,51 @@ public class MemberService {
 		return memberPw;
 	}
 
+	// checkBox 선택 조회
 	public ArrayList<Member> ifTest(String ckName, String ckPhone, String ckAddress) {
 		SqlSession session = getSqlSession();
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("ckName", ckName);
 		map.put("ckPhone", ckPhone);
 		map.put("ckAddress", ckAddress);
-		
+
 		ArrayList<Member> list = new MemberDao().ifTest(session, map);
-	
+
+		session.close();
+
+		return list;
+	}
+
+	// 타입 + 키워드 검색
+	public ArrayList<Member> chooseTest(String type, String keyword) {
+		SqlSession session = getSqlSession();
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("type", type);
+		map.put("keyword", keyword);
+
+		ArrayList<Member> list = new MemberDao().chooseTest(session, map);
+		session.close();
+
+		return list;
+	}
+
+	// 이름 + 주소 검색
+	public ArrayList<Member> searchTest(String name, String address) {
+		SqlSession session = getSqlSession();
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("name", name);
+		map.put("address", address);
+
+		ArrayList<Member> list = new MemberDao().searchTest(session, map);
+		session.close();
+
+		return list;
+	}
+
+	public ArrayList<Member> foreachTest(String[] name) {
+		SqlSession session = getSqlSession();
+		ArrayList<Member> list = new MemberDao().foreachTest(session, name);
+		
 		session.close();
 		
 		return list;
